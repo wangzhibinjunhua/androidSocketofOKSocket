@@ -65,7 +65,7 @@ public class WriterImpl implements IWriter {
 
                     if (OkSocketOptions.isDebug()) {
                         byte[] forLogBytes = Arrays.copyOfRange(sendBytes, index, index + realWriteLength);
-                        SL.i("write bytes: " + BytesUtils.toHexStringForLog(forLogBytes));
+                        SL.i("write bytes: " + BytesUtils.convertHexToString(BytesUtils.bytesToHexString(forLogBytes)));
                         SL.i("bytes write length:" + realWriteLength);
                     }
 

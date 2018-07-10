@@ -48,7 +48,7 @@ public class ReaderImpl extends AbsReader {
             }
             originalData.setHeadBytes(headBuf.array());
             if (OkSocketOptions.isDebug()) {
-                SL.i("read head: " + BytesUtils.toHexStringForLog(headBuf.array()));
+                SL.i("read head: " + BytesUtils.convertHexToString(BytesUtils.bytesToHexString(headBuf.array())));
             }
             int bodyLength = headerProtocol.getBodyLength(originalData.getHeadBytes(), mOkOptions.getReadByteOrder());
             if (OkSocketOptions.isDebug()) {

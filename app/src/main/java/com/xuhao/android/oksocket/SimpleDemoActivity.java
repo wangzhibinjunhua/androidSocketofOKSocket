@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ import com.xuhao.android.libsocket.sdk.bean.ISendable;
 import com.xuhao.android.libsocket.sdk.bean.OriginalData;
 import com.xuhao.android.libsocket.sdk.connection.IConnectionManager;
 import com.xuhao.android.libsocket.sdk.connection.NoneReconnect;
+import com.xuhao.android.libsocket.utils.BytesUtils;
 import com.xuhao.android.oksocket.adapter.LogAdapter;
 import com.xuhao.android.oksocket.data.HandShake;
 import com.xuhao.android.oksocket.data.LogBean;
@@ -53,7 +55,7 @@ public class SimpleDemoActivity extends AppCompatActivity {
 
         @Override
         public void onSocketConnectionSuccess(Context context, ConnectionInfo info, String action) {
-            mManager.send(new HandShake());
+          //  mManager.send(new HandShake());
             mConnect.setText("DisConnect");
         }
 
@@ -103,6 +105,13 @@ public class SimpleDemoActivity extends AppCompatActivity {
         findViews();
         initData();
         setListener();
+        test();
+    }
+
+    void test(){
+        String hexstr="3030313543532a3132333435363738393031323334352a4c4b";
+        Log.e("Socket","test "+ BytesUtils.convertHexToString(hexstr));
+
     }
 
     @Override
@@ -128,7 +137,7 @@ public class SimpleDemoActivity extends AppCompatActivity {
         mReceList.setLayoutManager(manager2);
         mReceList.setAdapter(mReceLogAdapter);
 
-        mInfo = new ConnectionInfo("104.238.184.237", 8080);
+        mInfo = new ConnectionInfo("192.168.16.101", 8282);
         mOkOptions = new OkSocketOptions.Builder()
                 .setReconnectionManager(new NoneReconnect())
                 .setWritePackageBytes(1024)
@@ -161,10 +170,12 @@ public class SimpleDemoActivity extends AppCompatActivity {
                 if (!mManager.isConnect()) {
                     Toast.makeText(getApplicationContext(), "未连接,请先连接", LENGTH_SHORT).show();
                 } else {
-                    String msg = mSendET.getText().toString();
-                    if (TextUtils.isEmpty(msg.trim())) {
-                        return;
-                    }
+                   // String msg = mSendET.getText().toString();
+                   // if (TextUtils.isEmpty(msg.trim())) {
+                   //     return;
+                    //}
+                    String msg="0015CS*123456789012345*LK";
+                    Log.e("wzb","sendMsg="+msg);
                     MsgDataBean msgDataBean = new MsgDataBean(msg);
                     mManager.send(msgDataBean);
                     mSendET.setText("");

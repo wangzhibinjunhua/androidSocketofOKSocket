@@ -16,10 +16,12 @@ public class DefaultNormalHeaderProtocol implements IHeaderProtocol {
         if (header == null || header.length == 0) {
             return 0;
         }
-        if (ByteOrder.BIG_ENDIAN.toString().equals(byteOrder.toString())) {
+      /*  if (ByteOrder.BIG_ENDIAN.toString().equals(byteOrder.toString())) {
             return BytesUtils.bytesToInt2(header, 0);
         } else {
             return BytesUtils.bytesToInt(header, 0);
-        }
+        }*/
+      String hexHeaderStr=BytesUtils.convertHexToString(BytesUtils.bytesToHexString(header));
+      return Integer.valueOf(hexHeaderStr,16);
     }
 }

@@ -1,11 +1,17 @@
 package com.xuhao.android.oksocket;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.xuhao.android.oksocket.wzb.Cmd;
+import com.xuhao.android.oksocket.wzb.CoreService;
+import com.xuhao.android.oksocket.wzb.PermissionUtils;
 
 /**
  * Created by didi on 2018/4/20.
@@ -39,5 +45,32 @@ public class DemoActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        initPermission();
+        test();
+    }
+
+    void test(){
+        String imei= Cmd.IMEI;
+        Log.e("wzb","test imei="+imei);
+        startService(new Intent(this, CoreService.class));
+    }
+
+    private void initPermission(){
+        PermissionUtils.requestPermissionsResult(this, 1, new String[]{    //»®œﬁÃ·–—
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_PHONE_STATE}
+                , new PermissionUtils.OnPermissionListener() {
+                    @Override
+                    public void onPermissionGranted() {
+
+                    }
+
+                    @Override
+                    public void onPermissionDenied() {
+                        // PermissionUtils.showTipsDialog(CONTEXT);
+                    }
+                }
+        );
     }
 }

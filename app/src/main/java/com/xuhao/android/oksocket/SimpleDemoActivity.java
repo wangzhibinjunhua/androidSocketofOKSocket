@@ -25,6 +25,7 @@ import com.xuhao.android.oksocket.adapter.LogAdapter;
 import com.xuhao.android.oksocket.data.HandShake;
 import com.xuhao.android.oksocket.data.LogBean;
 import com.xuhao.android.oksocket.data.MsgDataBean;
+import com.xuhao.android.oksocket.wzb.Cmd;
 
 import java.nio.charset.Charset;
 
@@ -87,6 +88,7 @@ public class SimpleDemoActivity extends AppCompatActivity {
         public void onSocketWriteResponse(Context context, ConnectionInfo info, String action, ISendable data) {
             super.onSocketWriteResponse(context, info, action, data);
             String str = new String(data.parse(), Charset.forName("utf-8"));
+            Log.e("wzb","onSocketWriteResponse:"+str);
             logSend(str);
         }
 
@@ -94,6 +96,7 @@ public class SimpleDemoActivity extends AppCompatActivity {
         public void onPulseSend(Context context, ConnectionInfo info, IPulseSendable data) {
             super.onPulseSend(context, info, data);
             String str = new String(data.parse(), Charset.forName("utf-8"));
+            Log.e("wzb","onPulseSend:"+str);
             logSend(str);
         }
     };
@@ -110,7 +113,8 @@ public class SimpleDemoActivity extends AppCompatActivity {
 
     void test(){
         String hexstr="3030313543532a3132333435363738393031323334352a4c4b";
-        Log.e("Socket","test "+ BytesUtils.convertHexToString(hexstr));
+        Log.e("wzb","test "+ BytesUtils.convertHexToString(hexstr));
+        Log.e("wzb","111 imei:"+ Cmd.IMEI);
 
     }
 

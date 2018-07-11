@@ -17,6 +17,7 @@ import com.xuhao.android.libsocket.sdk.bean.ISendable;
 import com.xuhao.android.libsocket.sdk.bean.OriginalData;
 import com.xuhao.android.libsocket.sdk.connection.IConnectionManager;
 import com.xuhao.android.libsocket.sdk.connection.NoneReconnect;
+import com.xuhao.android.oksocket.data.MsgDataBean;
 
 import java.nio.charset.Charset;
 
@@ -39,6 +40,9 @@ public class CoreService extends Service{
         @Override
         public void onSocketConnectionSuccess(Context context, ConnectionInfo info, String action) {
             Log.e("wzb","onSocketConnectionSuccess 连接成功");
+            //String msg=Cmd.encode(Cmd.IMEI+Cmd.SPLIT+Cmd.LK);
+            //mManager.send(new MsgDataBean(msg));
+            context.startService(new Intent(context,LkLongRunningService.class));
         }
 
         @Override
@@ -61,12 +65,14 @@ public class CoreService extends Service{
             super.onSocketReadResponse(context, info, action, data);
             String str = new String(data.getBodyBytes(), Charset.forName("utf-8"));
             //logRece(str);
+            Log.e("wzb","CoreService/onSocketReadResponse rece:"+str);
         }
 
         @Override
         public void onSocketWriteResponse(Context context, ConnectionInfo info, String action, ISendable data) {
             super.onSocketWriteResponse(context, info, action, data);
             String str = new String(data.parse(), Charset.forName("utf-8"));
+            Log.e("wzb","CoreService/onSocketWriteResponse send:"+str);
             //logSend(str);
         }
 
@@ -86,7 +92,10 @@ public class CoreService extends Service{
                 .setWritePackageBytes(1024)
                 .build();
         mManager = open(mInfo).option(mOkOptions);
+        Log.e("wzb","initSocket mManager="+mManager);
         if(mManager !=null) mManager.registerReceiver(adapter);
+        connect();
+
     }
 
     private void releaseSocket(){
@@ -119,6 +128,7 @@ public class CoreService extends Service{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e("wzb","CoreService onStartCommand");
         initSocket();
         return super.onStartCommand(intent, flags, startId);
     }

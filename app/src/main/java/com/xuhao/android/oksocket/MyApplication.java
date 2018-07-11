@@ -1,11 +1,10 @@
 package com.xuhao.android.oksocket;
 
-import android.Manifest;
 import android.app.Application;
 import android.content.Context;
 
 import com.xuhao.android.libsocket.sdk.OkSocket;
-import com.xuhao.android.oksocket.wzb.PermissionUtils;
+import com.xuhao.android.oksocket.wzb.util.SharedPreferencesUtil;
 
 
 /**
@@ -15,14 +14,24 @@ import com.xuhao.android.oksocket.wzb.PermissionUtils;
 public class MyApplication extends Application {
 
     /**
-     * È«¾ÖÉÏÏÂÎÄ»·¾³.
+     * å…¨å±€ä¸Šä¸‹æ–‡ç¯å¢ƒ.
      */
     public static Context CONTEXT;
+    /**
+     * SPè¯»å†™å·¥å…·.
+     */
+    public static SharedPreferencesUtil sp;
+    public static SharedPreferencesUtil sp_user;
+
+    /**
+     * SPæ–‡ä»¶å.
+     */
+    private final String SP_NAME = "oksocket";
     @Override
     public void onCreate() {
         super.onCreate();
         CONTEXT=getApplicationContext();
-
+        sp = new SharedPreferencesUtil(SP_NAME, SharedPreferencesUtil.PRIVATE, CONTEXT);
         OkSocket.initialize(this, true);
     }
 

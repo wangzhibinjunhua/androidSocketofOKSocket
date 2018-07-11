@@ -1,4 +1,4 @@
-package com.xuhao.android.oksocket.wzb;
+package com.xuhao.android.oksocket.wzb.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

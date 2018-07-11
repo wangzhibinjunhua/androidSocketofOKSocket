@@ -33,10 +33,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".wzb.CoreService"/>
-        <service android:name=".wzb.LkLongRunningService"/>
-        <receiver android:name=".wzb.LkAlarmReceiver" />
-        <receiver android:name=".wzb.CommonReceiver"/>
+        <service android:name=".wzb.service.CoreService"/>
+        <service android:name=".wzb.service.LkLongRunningService"/>
+        <receiver android:name=".wzb.receiver.LkAlarmReceiver" />
+        <receiver android:name=".wzb.receiver.CommonReceiver"/>
     </application>
 
 </manifest>

@@ -9,9 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.xuhao.android.oksocket.wzb.Cmd;
-import com.xuhao.android.oksocket.wzb.CoreService;
-import com.xuhao.android.oksocket.wzb.PermissionUtils;
+import com.xuhao.android.oksocket.wzb.util.Cmd;
+import com.xuhao.android.oksocket.wzb.service.CoreService;
+import com.xuhao.android.oksocket.wzb.util.PermissionUtils;
 
 /**
  * Created by didi on 2018/4/20.
@@ -56,7 +56,7 @@ public class DemoActivity extends AppCompatActivity {
     }
 
     private void initPermission(){
-        PermissionUtils.requestPermissionsResult(this, 1, new String[]{    //»®œﬁÃ·–—
+        PermissionUtils.requestPermissionsResult(this, 1, new String[]{    //
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_PHONE_STATE}

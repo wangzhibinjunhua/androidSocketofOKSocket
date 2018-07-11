@@ -1,4 +1,4 @@
-package com.xuhao.android.oksocket.wzb;
+package com.xuhao.android.oksocket.wzb.service;
 
 
 import android.app.Service;
@@ -17,7 +17,6 @@ import com.xuhao.android.libsocket.sdk.bean.ISendable;
 import com.xuhao.android.libsocket.sdk.bean.OriginalData;
 import com.xuhao.android.libsocket.sdk.connection.IConnectionManager;
 import com.xuhao.android.libsocket.sdk.connection.NoneReconnect;
-import com.xuhao.android.oksocket.data.MsgDataBean;
 
 import java.nio.charset.Charset;
 

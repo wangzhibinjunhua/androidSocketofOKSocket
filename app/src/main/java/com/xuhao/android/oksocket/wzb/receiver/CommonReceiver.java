@@ -1,4 +1,4 @@
-package com.xuhao.android.oksocket.wzb;
+package com.xuhao.android.oksocket.wzb.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

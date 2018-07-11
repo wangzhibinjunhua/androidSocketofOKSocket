@@ -1,4 +1,4 @@
-package com.xuhao.android.oksocket.wzb;
+package com.xuhao.android.oksocket.wzb.service;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.xuhao.android.oksocket.data.MsgDataBean;
+import com.xuhao.android.oksocket.wzb.util.Cmd;
+import com.xuhao.android.oksocket.wzb.receiver.LkAlarmReceiver;
 
 import java.util.Date;
 
@@ -38,7 +40,7 @@ public class LkLongRunningService extends Service {
             @Override
             public void run() {
                 Log.e("wzb","LkLongRunningService executed at "+new Date().toString());
-                String msg=Cmd.encode(Cmd.CS+Cmd.SPLIT+Cmd.IMEI+Cmd.SPLIT+Cmd.LK);
+                String msg= Cmd.encode(Cmd.CS+Cmd.SPLIT+Cmd.IMEI+Cmd.SPLIT+Cmd.LK);
                 CoreService.mManager.send(new MsgDataBean(msg));
             }
         }).start();

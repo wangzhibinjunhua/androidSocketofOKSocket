@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,10 +21,9 @@ import com.xuhao.android.libsocket.sdk.connection.IConnectionManager;
 import com.xuhao.android.libsocket.sdk.connection.NoneReconnect;
 import com.xuhao.android.libsocket.utils.BytesUtils;
 import com.xuhao.android.oksocket.adapter.LogAdapter;
-import com.xuhao.android.oksocket.data.HandShake;
 import com.xuhao.android.oksocket.data.LogBean;
 import com.xuhao.android.oksocket.data.MsgDataBean;
-import com.xuhao.android.oksocket.wzb.Cmd;
+import com.xuhao.android.oksocket.wzb.util.Cmd;
 
 import java.nio.charset.Charset;
 

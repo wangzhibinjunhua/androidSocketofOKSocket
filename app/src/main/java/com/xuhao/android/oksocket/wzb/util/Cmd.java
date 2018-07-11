@@ -1,4 +1,4 @@
-package com.xuhao.android.oksocket.wzb;
+package com.xuhao.android.oksocket.wzb.util;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

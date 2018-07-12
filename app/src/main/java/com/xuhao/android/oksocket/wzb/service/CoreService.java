@@ -1,10 +1,13 @@
 package com.xuhao.android.oksocket.wzb.service;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,6 +20,8 @@ import com.xuhao.android.libsocket.sdk.bean.ISendable;
 import com.xuhao.android.libsocket.sdk.bean.OriginalData;
 import com.xuhao.android.libsocket.sdk.connection.IConnectionManager;
 import com.xuhao.android.libsocket.sdk.connection.NoneReconnect;
+import com.xuhao.android.oksocket.wzb.receiver.LkAlarmReceiver;
+import com.xuhao.android.oksocket.wzb.receiver.ReConnectAlarmReceiver;
 
 import java.nio.charset.Charset;
 
@@ -51,12 +56,14 @@ public class CoreService extends Service{
             } else {
                 Log.e("wzb","onSocketDisconnection 正常断开");
             }
+            sendReConnect();
         }
 
         @Override
         public void onSocketConnectionFailed(Context context, ConnectionInfo info, String action, Exception e) {
             Toast.makeText(context, "连接失败" + e.getMessage(), LENGTH_SHORT).show();
             Log.e("wzb","onSocketConnectionFailed 连接失败");
+            sendReConnect();
         }
 
         @Override
@@ -104,12 +111,20 @@ public class CoreService extends Service{
         }
     }
 
-    private void connect(){
+    private void sendReConnect(){
+        AlarmManager manager=(AlarmManager)getSystemService(ALARM_SERVICE);
+        long triggerAtTime= SystemClock.elapsedRealtime() + 5*1000;
+        Intent i = new Intent(this, ReConnectAlarmReceiver.class);
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
+    }
+
+    public static void connect(){
         if(mManager == null) return;
         if(!mManager.isConnect()) mManager.connect();
     }
 
-    private void disconnect(){
+    public static void disconnect(){
         if(mManager == null) return;
         if(mManager.isConnect())mManager.disconnect();
     }

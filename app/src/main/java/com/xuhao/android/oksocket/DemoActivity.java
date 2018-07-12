@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.xuhao.android.oksocket.wzb.service.LkLongRunningService;
 import com.xuhao.android.oksocket.wzb.util.Cmd;
 import com.xuhao.android.oksocket.wzb.service.CoreService;
 import com.xuhao.android.oksocket.wzb.util.PermissionUtils;
@@ -53,12 +54,15 @@ public class DemoActivity extends AppCompatActivity {
         String imei= Cmd.IMEI;
         Log.e("wzb","test imei="+imei);
         startService(new Intent(this, CoreService.class));
+        //startService(new Intent(this, LkLongRunningService.class));
     }
 
     private void initPermission(){
-        PermissionUtils.requestPermissionsResult(this, 1, new String[]{    //
+        PermissionUtils.requestPermissionsResult(this, 1, new String[]{    //»®œﬁÃ·–—
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.READ_PHONE_STATE}
                 , new PermissionUtils.OnPermissionListener() {
                     @Override

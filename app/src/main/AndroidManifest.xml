@@ -2,11 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xuhao.android.oksocket">
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        android:maxSdkVersion="22" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- GPS定位权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 
     <application
@@ -37,6 +42,7 @@
         <service android:name=".wzb.service.LkLongRunningService"/>
         <receiver android:name=".wzb.receiver.LkAlarmReceiver" />
         <receiver android:name=".wzb.receiver.CommonReceiver"/>
+        <receiver android:name=".wzb.receiver.ReConnectAlarmReceiver"/>
     </application>
 
 </manifest>

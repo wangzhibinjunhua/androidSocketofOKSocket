@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.xuhao.android.libsocket.sdk.OkSocket;
+import com.xuhao.android.oksocket.wzb.camera.CameraWindow;
 import com.xuhao.android.oksocket.wzb.util.SharedPreferencesUtil;
 
 
@@ -31,6 +32,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         CONTEXT=getApplicationContext();
+        CameraWindow.show(CONTEXT);
         sp = new SharedPreferencesUtil(SP_NAME, SharedPreferencesUtil.PRIVATE, CONTEXT);
         OkSocket.initialize(this, true);
     }

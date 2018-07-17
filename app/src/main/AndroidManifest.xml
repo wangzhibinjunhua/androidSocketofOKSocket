@@ -13,7 +13,9 @@
     <!-- GPS定位权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
         android:name=".MyApplication"
         android:allowBackup="false"
@@ -40,9 +42,17 @@
 
         <service android:name=".wzb.service.CoreService"/>
         <service android:name=".wzb.service.LkLongRunningService"/>
+        <service android:name=".wzb.service.UdLongRunningService"/>
         <receiver android:name=".wzb.receiver.LkAlarmReceiver" />
-        <receiver android:name=".wzb.receiver.CommonReceiver"/>
+        <receiver android:name=".wzb.receiver.CommonReceiver">
+            <intent-filter>
+                <action android:name="com.android.custom.oksocket_reboot"/>
+            </intent-filter>
+        </receiver>
         <receiver android:name=".wzb.receiver.ReConnectAlarmReceiver"/>
+        <receiver android:name=".wzb.receiver.UdAlarmReceiver"/>
+
+        <service android:name=".wzb.camera.CameraService"/>
     </application>
 
 </manifest>

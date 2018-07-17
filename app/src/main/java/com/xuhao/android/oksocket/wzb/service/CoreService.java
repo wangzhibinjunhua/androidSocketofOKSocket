@@ -20,10 +20,15 @@ import com.xuhao.android.libsocket.sdk.bean.ISendable;
 import com.xuhao.android.libsocket.sdk.bean.OriginalData;
 import com.xuhao.android.libsocket.sdk.connection.IConnectionManager;
 import com.xuhao.android.libsocket.sdk.connection.NoneReconnect;
+import com.xuhao.android.oksocket.MyApplication;
+import com.xuhao.android.oksocket.wzb.camera.CameraService;
 import com.xuhao.android.oksocket.wzb.receiver.LkAlarmReceiver;
 import com.xuhao.android.oksocket.wzb.receiver.ReConnectAlarmReceiver;
+import com.xuhao.android.oksocket.wzb.util.Cmd;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 
 import static android.widget.Toast.LENGTH_SHORT;
 import static com.xuhao.android.libsocket.sdk.OkSocket.open;
@@ -47,6 +52,7 @@ public class CoreService extends Service{
             //String msg=Cmd.encode(Cmd.IMEI+Cmd.SPLIT+Cmd.LK);
             //mManager.send(new MsgDataBean(msg));
             context.startService(new Intent(context,LkLongRunningService.class));
+            context.startService(new Intent(context,UdLongRunningService.class));
         }
 
         @Override
@@ -72,6 +78,8 @@ public class CoreService extends Service{
             String str = new String(data.getBodyBytes(), Charset.forName("utf-8"));
             //logRece(str);
             Log.e("wzb","CoreService/onSocketReadResponse rece:"+str);
+            parseData(str);
+            Log.e("wzb","1111111");
         }
 
         @Override
@@ -151,5 +159,32 @@ public class CoreService extends Service{
     public void onDestroy() {
         super.onDestroy();
         releaseSocket();
+        sendBroadcast(new Intent("com.android.custom.oksocket_reboot"));
+    }
+
+    private void parseData(String msg){
+        List<String> msgArr= Arrays.asList(msg.split("\\*"));
+        String imei=msgArr.get(1);
+        String cmd=msgArr.get(2);
+       // String info=msgArr.get(3).substring(cmd.length()+1);
+        String info="";
+        Log.e("wzb","parseData imei="+imei+",cmd="+cmd+",info="+info);
+        String rspMsg="";
+        switch (cmd){
+            case "SOS1":
+                break;
+            case "CR":
+                break;
+            case "PHOTO":
+                startService(new Intent(MyApplication.CONTEXT, CameraService.class));
+                break;
+            case "UPLOAD":
+                MyApplication.sp.set("upload",info);
+                rspMsg= Cmd.CS+Cmd.SPLIT+imei+Cmd.SPLIT+"UPLOAD";
+                Cmd.send(rspMsg);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class LkLongRunningService extends Service {
 
-    public static final int LK_INTERVAL=5*1000;//60 seconds
+    public static final int LK_INTERVAL=20*1000;//60 seconds
 
     @Nullable
     @Override
@@ -56,9 +56,9 @@ public class LkLongRunningService extends Service {
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         //test
-        String info= LocationUtils.getInstance(MyApplication.CONTEXT).getLocation();
-        Log.e("wzb","location info="+info);
-        Toast.makeText(MyApplication.CONTEXT,info,Toast.LENGTH_LONG).show();
+        //String info= LocationUtils.getInstance(MyApplication.CONTEXT).getLocation();
+        //Log.e("wzb","location info="+info);
+        //Toast.makeText(MyApplication.CONTEXT,info,Toast.LENGTH_LONG).show();
     }
 
 

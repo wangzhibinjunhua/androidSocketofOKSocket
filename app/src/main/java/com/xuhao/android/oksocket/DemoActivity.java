@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.xuhao.android.oksocket.wzb.camera.CameraService;
 import com.xuhao.android.oksocket.wzb.service.LkLongRunningService;
+import com.xuhao.android.oksocket.wzb.service.UdLongRunningService;
 import com.xuhao.android.oksocket.wzb.util.Cmd;
 import com.xuhao.android.oksocket.wzb.service.CoreService;
 import com.xuhao.android.oksocket.wzb.util.PermissionUtils;
@@ -55,14 +57,19 @@ public class DemoActivity extends AppCompatActivity {
         Log.e("wzb","test imei="+imei);
         startService(new Intent(this, CoreService.class));
         //startService(new Intent(this, LkLongRunningService.class));
+       // startService(new Intent(this, CameraService.class));
+        //UdLongRunningService.packUdInfo("A,-23.22,11.11");
     }
 
     private void initPermission(){
-        PermissionUtils.requestPermissionsResult(this, 1, new String[]{    //»®œﬁÃ·–—
+        PermissionUtils.requestPermissionsResult(this, 1, new String[]{    //ÊùÉÈôêÊèêÈÜí
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.CAMERA,
+                Manifest.permission.WAKE_LOCK,
+                Manifest.permission.SYSTEM_ALERT_WINDOW,
                         Manifest.permission.READ_PHONE_STATE}
                 , new PermissionUtils.OnPermissionListener() {
                     @Override

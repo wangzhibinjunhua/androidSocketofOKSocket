@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import android.app.Service;
 import android.app.VoiceInteractor;
@@ -85,6 +86,14 @@ public class CameraService extends Service implements PictureCallback {
             stopSelf();
             return;
         }
+        //set param
+        Camera.Parameters params = mCamera.getParameters();
+        List<Camera.Size> sizes = params.getSupportedPictureSizes();
+        Camera.Size size = sizes.get(0);
+        params.setPictureSize(size.width, size.height);
+        mCamera.setParameters(params);
+        //end
+
         try {
             mCamera.setPreviewDisplay(preview.getHolder());
             mCamera.startPreview();// 开始预览
@@ -147,7 +156,7 @@ public class CameraService extends Service implements PictureCallback {
         releaseCamera();
         try {
             Options opts=new Options();
-            opts.inSampleSize=8;
+            opts.inSampleSize=2;
             Bitmap bitmap=BitmapFactory.decodeByteArray(data,0,data.length,opts);
             byte[] newData=Bitmap2Bytes(bitmap);
             if(savePic(newData, new File("/sdcard/custompic.jpg"))){

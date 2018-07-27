@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class LkLongRunningService extends Service {
 
-    public static final int LK_INTERVAL=20*1000;//60 seconds
+    public static final int LK_INTERVAL=30*1000;//60 seconds
 
     @Nullable
     @Override

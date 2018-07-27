@@ -100,7 +100,7 @@ public class CoreService extends Service{
 
 
     private void initSocket(){
-        mInfo = new ConnectionInfo("192.168.16.101", 8282);
+        mInfo = new ConnectionInfo("47.106.79.79", 8282);
         mOkOptions = new OkSocketOptions.Builder()
                 .setReconnectionManager(new NoneReconnect())
                 .setWritePackageBytes(1024)

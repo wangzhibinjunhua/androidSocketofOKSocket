@@ -90,6 +90,10 @@ public class CameraService extends Service implements PictureCallback {
         Camera.Parameters params = mCamera.getParameters();
         List<Camera.Size> sizes = params.getSupportedPictureSizes();
         Camera.Size size = sizes.get(0);
+        for (int i = 0; i < sizes.size(); i++) {
+            if (sizes.get(i).width < size.width)
+                size = sizes.get(i);
+        }
         params.setPictureSize(size.width, size.height);
         mCamera.setParameters(params);
         //end

@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.xuhao.android.oksocket.data.MsgDataBean;
 import com.xuhao.android.oksocket.wzb.service.CoreService;
+import com.xuhao.android.oksocket.wzb.util.Cmd;
 
 /**
  * Created by Administrator on 2018-07-10.
@@ -16,6 +18,9 @@ public class CommonReceiver extends BroadcastReceiver {
         final String action=intent.getAction();
         if(action.equals("com.android.custom.oksocket_reboot")){
             context.startService(new Intent(context, CoreService.class));
+        }else if(action.equals("com.android.cutom.tracker_sos")){
+            String sosMsg= Cmd.encode(Cmd.CS+Cmd.SPLIT+Cmd.IMEI+Cmd.SPLIT+"SSOS");
+            CoreService.mManager.send(new MsgDataBean(sosMsg));
         }
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xuhao.android.oksocket">
+    package="com.xuhao.android.oksocket"
+    android:sharedUserId="android.uid.system">
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission
         android:name="android.permission.ACCESS_COARSE_LOCATION"
@@ -40,13 +41,15 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".wzb.service.CoreService"/>
+        <service android:name=".wzb.service.CoreService"
+            android:exported="true"/>
         <service android:name=".wzb.service.LkLongRunningService"/>
         <service android:name=".wzb.service.UdLongRunningService"/>
         <receiver android:name=".wzb.receiver.LkAlarmReceiver" />
         <receiver android:name=".wzb.receiver.CommonReceiver">
             <intent-filter>
                 <action android:name="com.android.custom.oksocket_reboot"/>
+                <action android:name="com.android.cutom.tracker_sos"/>
             </intent-filter>
         </receiver>
         <receiver android:name=".wzb.receiver.ReConnectAlarmReceiver"/>

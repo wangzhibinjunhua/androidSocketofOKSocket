@@ -28,7 +28,7 @@ import java.util.List;
 
 public class UdLongRunningService extends Service {
 
-    public static final int UD_INTERVAL=30*1000;//60 seconds
+    public static final int UD_INTERVAL=60*1000;//60 seconds
 
     @Nullable
     @Override

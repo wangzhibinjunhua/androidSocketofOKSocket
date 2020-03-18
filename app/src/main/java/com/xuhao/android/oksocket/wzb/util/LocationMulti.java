@@ -181,43 +181,8 @@ public class LocationMulti {
             cellInfo+=stationDbm;
             cellInfo+=",";
 
-        }else if(infoLists.size()>5){
-            String stationNum="5";
-            cellInfo+=stationNum;
-            cellInfo+=",";
-
-            String gsmDelay="1";
-            cellInfo+=gsmDelay;
-            cellInfo+=",";
-
-            String mcc="460";
-            cellInfo+=mcc;
-            cellInfo+=",";
-
-            CellInfoGsm cg=(CellInfoGsm)infoLists.get(0);
-            String mnc=""+cg.getCellIdentity().getMnc();
-
-            cellInfo+=mnc;
-            cellInfo+=",";
-
-
-            for(int i=0;i<5;i++){
-                CellInfoGsm cg1=(CellInfoGsm)infoLists.get(i);
-                String lac=""+cg1.getCellIdentity().getLac();//基站位置区域码
-                cellInfo+=lac;
-                cellInfo+=",";
-
-                String cellid=""+cg1.getCellIdentity().getCid();//基站编号
-                cellInfo+=cellid;
-                cellInfo+=",";
-
-                String stationDbm=""+cg1.getCellSignalStrength().getDbm();
-                cellInfo+=stationDbm;
-                cellInfo+=",";
-            }
-
         }else{
-            String stationNum=""+infoLists.size();
+            String stationNum=""+(infoLists.size()>5? 5:infoLists.size());
             cellInfo+=stationNum;
             cellInfo+=",";
 
@@ -234,7 +199,7 @@ public class LocationMulti {
 
             cellInfo+=mnc;
             cellInfo+=",";
-            for(int i=0;i<infoLists.size();i++){
+            for(int i=0;i<(infoLists.size()>5? 5:infoLists.size());i++){
                 CellInfoGsm cg2=(CellInfoGsm)infoLists.get(i);
                 String lac=""+cg2.getCellIdentity().getLac();//基站位置区域码
                 cellInfo+=lac;
@@ -402,26 +367,15 @@ public class LocationMulti {
         String wifiInfo="";
         List<ScanResult> wifiList=getWifiList();
         int wifiApNum=wifiList.size();
-        if(wifiApNum>4){
-            wifiInfo+="4";
-            for(int i=0;i<4;i++){
-                wifiInfo+=",";
-                wifiInfo+=wifiList.get(i).SSID;
-                wifiInfo+=",";
-                wifiInfo+=wifiList.get(i).BSSID;
-                wifiInfo+=",";
-                wifiInfo+=""+wifiList.get(i).level;
-            }
-        }else{
-            wifiInfo+=""+wifiApNum;
-            for(int i=0;i<wifiApNum;i++){
-                wifiInfo+=",";
-                wifiInfo+=wifiList.get(i).SSID;
-                wifiInfo+=",";
-                wifiInfo+=wifiList.get(i).BSSID;
-                wifiInfo+=",";
-                wifiInfo+=""+wifiList.get(i).level;
-            }
+
+        wifiInfo+=""+(wifiApNum>4?4:wifiApNum);
+        for(int i=0;i<(wifiApNum>4?4:wifiApNum);i++){
+            wifiInfo+=",";
+            wifiInfo+=wifiList.get(i).SSID;
+            wifiInfo+=",";
+            wifiInfo+=wifiList.get(i).BSSID;
+            wifiInfo+=",";
+            wifiInfo+=""+wifiList.get(i).level;
         }
 
         LogUtil.logMessage("wzb","wifiInfo="+wifiInfo);

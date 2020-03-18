@@ -75,7 +75,7 @@ public class LocationUtils {
             Log.e("wzb","no PROVIDER");
         }
         Location location = locationManager.getLastKnownLocation(provider);
-       // Log.e("wzb","getLocation location="+location);
+        Log.e("wzb","getLocation location="+location);
         if (location != null) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
@@ -109,7 +109,7 @@ public class LocationUtils {
         @Override
         public void onLocationChanged(Location location) {
             if (location != null) {
-               // Log.e("wzb", "Location changed : Lat: " + location.getLatitude() + " Lng: " + location.getLongitude());
+                Log.e("wzb", "Location changed : Lat: " + location.getLatitude() + " Lng: " + location.getLongitude());
                 latitude = location.getLatitude(); // 经度
                 longitude = location.getLongitude(); // 纬度
             }

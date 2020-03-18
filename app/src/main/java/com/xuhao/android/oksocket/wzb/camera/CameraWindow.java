@@ -6,6 +6,7 @@ package com.xuhao.android.oksocket.wzb.camera;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
@@ -40,7 +41,13 @@ public class CameraWindow {
             params.width = 1;
             params.height = 1;
             params.alpha = 0;
-            params.type = LayoutParams.TYPE_SYSTEM_ALERT;
+            //params.type = LayoutParams.TYPE_SYSTEM_ALERT;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){//6.0+
+                params.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            }else {
+                params.type =  WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+            }
+
             // 屏蔽点击事件
             params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
                     | LayoutParams.FLAG_NOT_FOCUSABLE

@@ -25,6 +25,7 @@ import com.xuhao.android.oksocket.wzb.camera.CameraService;
 import com.xuhao.android.oksocket.wzb.receiver.LkAlarmReceiver;
 import com.xuhao.android.oksocket.wzb.receiver.ReConnectAlarmReceiver;
 import com.xuhao.android.oksocket.wzb.util.Cmd;
+import com.xuhao.android.oksocket.wzb.util.LogUtil;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -100,7 +101,7 @@ public class CoreService extends Service{
 
 
     private void initSocket(){
-        mInfo = new ConnectionInfo("47.106.79.79", 8282);
+        mInfo = new ConnectionInfo("192.168.1.134", 8282);
         mOkOptions = new OkSocketOptions.Builder()
                 .setReconnectionManager(new NoneReconnect())
                 .setWritePackageBytes(1024)
@@ -158,6 +159,7 @@ public class CoreService extends Service{
     @Override
     public void onDestroy() {
         super.onDestroy();
+        LogUtil.logMessage("wzb","CoreService onDestroy");
         releaseSocket();
         sendBroadcast(new Intent("com.android.custom.oksocket_reboot"));
     }

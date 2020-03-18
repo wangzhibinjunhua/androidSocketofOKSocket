@@ -3,9 +3,14 @@ package com.xuhao.android.oksocket.wzb.service;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,7 +20,9 @@ import com.xuhao.android.oksocket.data.MsgDataBean;
 import com.xuhao.android.oksocket.wzb.receiver.LkAlarmReceiver;
 import com.xuhao.android.oksocket.wzb.receiver.UdAlarmReceiver;
 import com.xuhao.android.oksocket.wzb.util.Cmd;
+import com.xuhao.android.oksocket.wzb.util.LocationMulti;
 import com.xuhao.android.oksocket.wzb.util.LocationUtils;
+import com.xuhao.android.oksocket.wzb.util.LogUtil;
 
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,12 +35,59 @@ import java.util.List;
 
 public class UdLongRunningService extends Service {
 
-    public static final int UD_INTERVAL=60*1000;//60 seconds
+    public static final int UD_INTERVAL=20*1000;//60 seconds
+
+    private LocationManager mLocationManager;
+    private Context mContext;
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mContext=MyApplication.CONTEXT;
+        mLocationManager=(LocationManager)getSystemService(LOCATION_SERVICE);
+        getContentResolver()
+                .registerContentObserver(
+                        Settings.Secure
+                                .getUriFor(Settings.System.LOCATION_PROVIDERS_ALLOWED),
+                        false, mGpsMonitor);
+       // openGPS(true);
+    }
+
+    private final ContentObserver mGpsMonitor=new ContentObserver(null) {
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            boolean enabled = mLocationManager
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+            LogUtil.logMessage("wzb", "gps enabled? " + enabled);
+            if(!enabled){
+                openGPS(true);
+            }
+        }
+    };
+
+    private void openGPS(boolean open) {
+        try{
+            if (Build.VERSION.SDK_INT <19) {
+                Settings.Secure.setLocationProviderEnabled(mContext.getContentResolver(),
+                        LocationManager.GPS_PROVIDER, open);
+            }else{
+                if(!open){
+                    Settings.Secure.putInt(mContext.getContentResolver(), Settings.Secure.LOCATION_MODE, android.provider.Settings.Secure.LOCATION_MODE_OFF);
+                }else{
+                    Settings.Secure.putInt(mContext.getContentResolver(), Settings.Secure.LOCATION_MODE, android.provider.Settings.Secure.LOCATION_MODE_SENSORS_ONLY);
+                }
+            }
+        }catch (Exception e) {
+            // TODO: handle exception
+            Log.d("wzb", "open gps exception");
+        }
     }
 
     @Override
@@ -43,17 +97,19 @@ public class UdLongRunningService extends Service {
     }
 
     private void doSomeThing(){
-        final String info= LocationUtils.getInstance(MyApplication.CONTEXT).getLocation();
-        Log.e("wzb","location info="+info);
-        Toast.makeText(MyApplication.CONTEXT,info,Toast.LENGTH_LONG).show();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.e("wzb","UdLongRunningService executed at "+new Date().toString());
-                String msg= Cmd.encode(Cmd.CS+Cmd.SPLIT+Cmd.IMEI+Cmd.SPLIT+Cmd.UD+","+packUdInfo(info));
-                CoreService.mManager.send(new MsgDataBean(msg));
-            }
-        }).start();
+       // final String info= LocationUtils.getInstance(MyApplication.CONTEXT).getLocation();
+       // Log.e("wzb","location info="+info);
+        //Toast.makeText(MyApplication.CONTEXT,info,Toast.LENGTH_LONG).show();
+        //new Thread(new Runnable() {
+        //    @Override
+        //    public void run() {
+        //        Log.e("wzb","UdLongRunningService executed at "+new Date().toString());
+        //        String msg= Cmd.encode(Cmd.CS+Cmd.SPLIT+Cmd.IMEI+Cmd.SPLIT+Cmd.UD+","+packUdInfo(info));
+        //        CoreService.mManager.send(new MsgDataBean(msg));
+        //    }
+        //}).start();
+
+        LocationMulti.getInstance(MyApplication.CONTEXT).StartLocation();
 
         AlarmManager manager=(AlarmManager)getSystemService(ALARM_SERVICE);
         long triggerAtTime= SystemClock.elapsedRealtime() + UD_INTERVAL;
@@ -176,5 +232,6 @@ public class UdLongRunningService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        getContentResolver().unregisterContentObserver(mGpsMonitor);
     }
 }
